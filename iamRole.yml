@@ -59,6 +59,12 @@ role:
         - tag:UntagResources
       Resource: "*"
 
+    # Put bucket objects
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+      Resource: arn:aws:s3:::<company-name>-datadog-reference-tables-*
+
     # Secret Management
     - Effect: Allow
       Action:

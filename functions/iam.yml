@@ -1,0 +1,8 @@
+iam-role-add-name-tag:
+  handler: src/handlers/iam_handler.add_name_tag
+  timeout: 300
+  memorySize: 256
+  events:
+    - schedule:
+        rate: cron(0 3 * * ? *) # 00:00 UTC-3
+        enabled: ${self:provider.environment.SCHEDULE_FROM_IAM_IS_ENABLED}

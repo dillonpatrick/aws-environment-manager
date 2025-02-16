@@ -1,0 +1,37 @@
+version: "3"
+
+tasks:
+  install:
+    desc: "Install dependencies and create virtual environment"
+    cmds:
+      - python3 -m venv .venv
+      - . .venv/bin/activate
+      - .venv/bin/python -m pip install -r requirements.txt
+      - pip install -t src/vendor -r aws_requirements.txt
+      - npm install
+
+  fmt:
+    desc: "Format project"
+    cmds:
+      - isort ./src -s vendor
+      - black ./src --force-exclude "vendor"
+
+  lint:
+    desc: "List of code formatting issues"
+    cmds:
+      - flake8 --exclude .venv,vendor,node_modules -v
+
+  deploy-dev:
+    desc: "Deploy to development stage"
+    cmds:
+      - serverless deploy --stage dev --verbose
+
+  deploy-dev-dr:
+    desc: "Deploy to development stage"
+    cmds:
+      - serverless deploy --stage dev-dr --verbose
+
+  deploy-staging:
+    desc: "Deploy to staging stage"
+    cmds:
+      - serverless deploy --stage staging --verbose

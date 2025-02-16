@@ -1,0 +1,26 @@
+api-v1-add-name-tag:
+  handler: src/handlers/api_gateway_handler.api_v1_add_name_tag
+  timeout: 300
+  memorySize: 256
+  events:
+    - schedule:
+        rate: cron(0 3 * * ? *) # 00:00 UTC-3
+        enabled: ${self:provider.environment.SCHEDULE_FROM_API_GATEWAY_IS_ENABLED}
+
+api-v2-add-name-tag:
+  handler: src/handlers/api_gateway_handler.api_v2_add_name_tag
+  timeout: 300
+  memorySize: 256
+  events:
+    - schedule:
+        rate: cron(0 3 * * ? *) # 00:00 UTC-3
+        enabled: ${self:provider.environment.SCHEDULE_FROM_API_GATEWAY_IS_ENABLED}
+
+api-v1-enable-waf:
+  handler: src/handlers/api_gateway_handler.enable_waf_for_api_v1
+  timeout: 300
+  memorySize: 256
+  events:
+    - schedule:
+        rate: cron(0 3 * * ? *) # 00:00 UTC-3
+        enabled: ${self:provider.environment.SCHEDULE_FROM_API_GATEWAY_IS_ENABLED}

@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "serverless-deployment-bucket": "^1.6.0",
+    "serverless-offline": "^13.3.3",
+    "serverless": "^3.34.0"
+  }
+}

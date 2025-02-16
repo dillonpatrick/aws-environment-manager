@@ -1,0 +1,4 @@
+PYTHON_ENV: dev
+GLOBAL_RESOURCE_ENV: ${self:provider.environment.PYTHON_ENV}
+REGION: us-east-1
+AWS_ACCOUNT_ID: "123456789012"

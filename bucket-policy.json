@@ -1,0 +1,21 @@
+{
+  "Id": "s3-policy",
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Sid": "AllowSSLRequestsOnly",
+          "Action": "s3:*",
+          "Effect": "Deny",
+          "Resource": [
+              "arn:aws:s3:::${self:service}-${opt:stage, self:provider.stage}-deployment-bucket",
+              "arn:aws:s3:::${self:service}-${opt:stage, self:provider.stage}-deployment-bucket/*"
+          ],
+          "Condition": {
+              "Bool": {
+                   "aws:SecureTransport": "false"
+              }
+          },
+         "Principal": "*"
+      }
+  ]
+}

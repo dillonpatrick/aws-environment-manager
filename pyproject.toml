@@ -1,0 +1,28 @@
+[tool.flake8]
+exclude = [".venv"]
+per-file-ignores = ['__init__.py:F401', './src/utils/params_logger.py:E402']
+max-line-length = 79
+count = true
+
+
+[tool.black]
+line-length = 79
+target-version = ["py39"]
+exclude = '''
+    /(
+        \.eggs
+      | \.git
+      | \.venv
+      | \node_modules
+      | \src/vendor
+    )/
+  '''
+
+
+[tool.isort]
+profile = "black"
+src_paths = ["src"]
+multi_line_output = 3
+skip = [
+    "./src/vendor/*"
+]

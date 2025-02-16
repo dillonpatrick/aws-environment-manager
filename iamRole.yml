@@ -1,0 +1,69 @@
+role:
+  name: ${self:service}-${opt:stage, self:provider.stage}-role
+  statements:
+    - Effect: Allow
+      Action:
+        - apigateway:PATCH
+        - apigateway:GET
+        - apigateway:PUT
+        - apigateway:POST
+      Resource: arn:aws:apigateway:*
+    - Effect: Allow
+      Action:
+        - wafv2:AssociateWebACL
+        - wafv2:GetWebACLForResource
+        - wafv2:GetWebACL
+      Resource: arn:aws:wafv2:${self:provider.environment.REGION}:${self:provider.environment.AWS_ACCOUNT_ID}:regional/webacl/*/*
+    - Effect: Allow
+      Action:
+        - apigateway:SetWebACL
+      Resource: arn:aws:apigateway:${self:provider.environment.REGION}::/restapis/*/stages/${self:provider.environment.PYTHON_ENV}
+    - Effect: Allow
+      Action:
+        - dynamodb:ListTables
+        - dynamodb:ListTagsOfResource
+        - dynamodb:DescribeTable
+        - dynamodb:UpdateTable
+        - dynamodb:TagResource
+        - dynamodb:Scan
+      Resource: arn:aws:dynamodb:*
+
+    #Tagging log groups
+    - Effect: Allow
+      Action:
+        - logs:DescribeLogGroups
+        - logs:ListTagsForResource
+        - logs:TagResource
+      Resource: arn:aws:logs:${self:provider.environment.REGION}:${self:provider.environment.AWS_ACCOUNT_ID}:*
+
+    #Tagging secrets manager
+    - Effect: Allow
+      Action:
+        - secretsmanager:TagResource
+      Resource: arn:aws:secretsmanager:${self:provider.environment.REGION}:${self:provider.environment.AWS_ACCOUNT_ID}:secret:*
+
+    #Tagging log groups
+    - Effect: Allow
+      Action:
+        - iam:List*
+        - iam:TagRole
+      Resource: arn:aws:iam::${self:provider.environment.AWS_ACCOUNT_ID}:role/*
+
+    # Tagging Resources
+    - Effect: Allow
+      Action:
+        - tag:getResources
+        - tag:getTagKeys
+        - tag:getTagValues
+        - tag:TagResources
+        - tag:UntagResources
+      Resource: "*"
+
+    # Secret Management
+    - Effect: Allow
+      Action:
+        - secretsmanager:ListSecrets
+        - secretsmanager:DeleteSecret
+        - secretsmanager:DescribeSecret
+        - secretsmanager:ReplicateSecretToRegions
+      Resource: "*" #required

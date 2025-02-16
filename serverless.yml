@@ -1,0 +1,43 @@
+service: aws-environment-manager
+
+provider:
+  name: aws
+  runtime: python3.12
+  stage: ${opt:stage, 'staging'}
+  versionFunctions: false # No functions versioning
+  logRetentionInDays: 180
+  region: ${self:provider.environment.REGION}
+  architecture: arm64
+  deploymentBucket:
+    name: "${self:service}-${opt:stage, self:provider.stage}-deployment-bucket"
+
+  environment: ${file(./environment/${self:provider.stage}.yml)}
+  iam: ${file(./iamRole.yml)}
+
+  stackTags:
+    Name: ${self:service}
+
+package:
+  excludeDevDependencies: true
+  exclude:
+    - .git/**
+    - .vscode/**
+    - .test/**
+    - .idea/**
+    - .venv
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-offline
+
+custom:
+  deploymentBucket:
+    blockPublicAccess: true
+    policy: "${file(./bucket-policy.json)}"
+
+functions:
+  - ${file(./functions/dynamodb.yml)}
+  - ${file(./functions/log-group.yml)}
+  - ${file(./functions/secrets-manager.yml)}
+  - ${file(./functions/api-gateway.yml)}
+  - ${file(./functions/iam.yml)}

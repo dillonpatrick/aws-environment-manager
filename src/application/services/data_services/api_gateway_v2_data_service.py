@@ -1,4 +1,4 @@
-from src.domain.models.apí_gateway_v2_metadata import ApiGatewayV2Metadata
+from src.domain.models.api_gateway_v2_metadata import ApiGatewayV2Metadata
 from src.infra.api_gateway.api_gateway_repository import ApiGatewayRepository
 
 

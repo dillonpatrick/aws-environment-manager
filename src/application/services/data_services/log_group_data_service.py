@@ -1,5 +1,5 @@
 from src.domain.models.log_group_metadata import LogGroupMetaData
-from src.infra.log_groups.log_group_repository import LogGroupRepository
+from src.infra.log_group.log_group_repository import LogGroupRepository
 
 
 class LogGroupDataService:
